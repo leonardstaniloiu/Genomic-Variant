@@ -1,0 +1,16 @@
+##fileformat=VCFv4.2
+##source=GeneticIQ_demo_pediatric_epilepsy
+##reference=GRCh38
+##INFO=<ID=SCENARIO,Number=1,Type=String,Description="Demo scenario label">
+##INFO=<ID=NOTE,Number=1,Type=String,Description="Synthetic variant for application testing">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+2	166849908	.	C	T	99	PASS	SCENARIO=PediatricEpilepsy;NOTE=SCN1A_candidate_variant
+2	166895682	.	G	A	95	PASS	SCENARIO=PediatricEpilepsy;NOTE=SCN1A_high_impact_candidate
+12	56492849	.	T	C	90	PASS	SCENARIO=PediatricEpilepsy;NOTE=GABRG2_candidate_variant
+20	619748	.	A	AT	85	PASS	SCENARIO=PediatricEpilepsy;NOTE=Control_indel_variant
+20	626164	.	T	A	88	PASS	SCENARIO=PediatricEpilepsy;NOTE=Control_snp_variant
+20	594481	.	G	T	82	PASS	SCENARIO=PediatricEpilepsy;NOTE=Background_variant_1
+20	603620	.	G	T	80	PASS	SCENARIO=PediatricEpilepsy;NOTE=Background_variant_2
+20	607805	.	T	C	84	PASS	SCENARIO=PediatricEpilepsy;NOTE=Background_variant_3
+1	925946	.	C	G	78	PASS	SCENARIO=PediatricEpilepsy;NOTE=Background_variant_4
+1	926014	.	G	A	76	PASS	SCENARIO=PediatricEpilepsy;NOTE=Background_variant_5
