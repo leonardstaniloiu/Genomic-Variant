@@ -214,13 +214,13 @@ def render_input_panel(hpo_terms_df):
                     st.caption("Sunt afisate primele 100 variante filtrate; pentru tot VCF-ul e mai potrivita baza dbNSFP locala.")
 
         dbnsfp_basic_file = st.file_uploader(
-            "Incarca dbNSFP basic annotation",
+            "Incarca fisierul cu adnotari standard",
             type=["tsv", "txt", "csv"],
             key="dbnsfp_basic_uploader",
         )
 
         dbnsfp_af_file = st.file_uploader(
-            "Incarca dbNSFP allele frequency",
+            "Incarca fisierul cu frecventa alelica",
             type=["tsv", "txt", "csv"],
             key="dbnsfp_af_uploader",
         )
