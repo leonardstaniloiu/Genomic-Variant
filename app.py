@@ -194,10 +194,6 @@ def render_input_panel(hpo_terms_df):
         st.divider()
 
         st.subheader("4. Adnotari dbNSFP")
-        st.caption(
-            "Optional: incarca un TSV/CSV exportat din dbNSFP pentru variantele pacientului "
-            "(coloane minime: chr/pos/ref/alt)."
-        )
 
         if vcf_content:
             batches = build_dbnsfp_batches(vcf_content, min_qual=min_qual)
@@ -260,7 +256,7 @@ def render_input_panel(hpo_terms_df):
                 st.error(f"Nu s-a putut citi fisierul allele frequency: {e}")
 
         if st.session_state.dbnsfp_basic_df is None and st.session_state.dbnsfp_af_df is None:
-            st.error(f"eroare") 
+            st.warning(f": Incarca un TSV/CSV exportat din dbNSFP pentru variantele pacientului") 
         else:
             parts = []
             if st.session_state.dbnsfp_basic_df is not None:
@@ -386,7 +382,7 @@ with right:
             if variants_df.empty:
                 raise ValueError("VCF-ul nu contine variante valide dupa filtrare (QUAL/FILTER).")
 
-            update_progress(0.20, f"Pasul 1/4 — ✓ {len(variants_df)} variante bune")
+            update_progress(0.20, f"Pasul 1/4 — {len(variants_df)} variante bune")
 
             update_progress(0.28, "Pasul 2/4 — Incepe procesul de adnotare...")
             annotated_df = annotate_vep(
@@ -394,12 +390,12 @@ with right:
                 progress_cb=lambda v, m: update_progress(0.28 + v * 0.25, f"Pasul 2/4 — {m}")
             )
 
-            update_progress(0.58, f"Pasul 2/4 — ✓ {len(annotated_df)} variante adnotate")
+            update_progress(0.58, f"Pasul 2/4 — {len(annotated_df)} variante adnotate")
 
             update_progress(0.68, f"Pasul 3/4 — Potrivire HPO ({len(patient_hpo_codes)} termeni)...")
             matched_df = hpo_match(annotated_df, patient_hpo_codes, gene_to_hpo, hpo_weight_map)
             n_matched = int(matched_df["hpo_match"].sum())
-            update_progress(0.82, f"Pasul 3/4 — ✓ {n_matched}/{len(matched_df)} variante cu potrivire HPO")
+            update_progress(0.82, f"Pasul 3/4 - {n_matched}/{len(matched_df)} variante cu potrivire HPO")
 
             update_progress(0.86, "Pasul 4/5 — Integrare dbNSFP...")
             annotated_with_dbnsfp = matched_df
