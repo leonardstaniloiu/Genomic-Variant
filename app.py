@@ -169,7 +169,7 @@ def render_input_panel(hpo_terms_df):
         st.divider()
 
         st.subheader("3. Fisier VCF")
-        st.caption("Incarca fisierul VCF real al pacientului.")
+        st.caption("Incarca fisierul VCF al pacientului.")
 
         vcf_file = st.file_uploader("Incarca fisier VCF", type=["vcf", "txt"])
 
@@ -260,16 +260,14 @@ def render_input_panel(hpo_terms_df):
                 st.error(f"Nu s-a putut citi fisierul allele frequency: {e}")
 
         if st.session_state.dbnsfp_basic_df is None and st.session_state.dbnsfp_af_df is None:
-            st.info(
-                "Fara dbNSFP, rankingul foloseste doar VEP + HPO si poate da scoruri foarte apropiate."
-            )
+            # 
         else:
             parts = []
             if st.session_state.dbnsfp_basic_df is not None:
                 parts.append("basic annotation")
             if st.session_state.dbnsfp_af_df is not None:
                 parts.append("allele frequency")
-            st.caption(f"dbNSFP activ: {', '.join(parts)} sunt incarcate si folosite automat in ranking.")
+            st.caption(f"dbNSFP activ: {', '.join(parts)} ")
 
         st.divider()
 
@@ -308,7 +306,7 @@ def render_population_frequency(row):
     if not data:
         st.caption(
             "Aceasta varianta nu are frecvente populationale potrivite dupa chrom/pos/ref/alt "
-            "in fisierul allele frequency incarcat."
+            "in fisierul incarcat."
         )
         return
 
@@ -365,12 +363,8 @@ with right:
     if not run_clicked and "last_results" not in st.session_state:
         st.markdown("""
         <div style="text-align:center; padding: 60px 20px; color: #8C8880;">
-            <div style="font-size:48px; margin-bottom:16px">🧬</div>
             <div style="font-size:16px; margin-bottom:8px">
                 Completeaza datele si apasa <b>Incepe analiza</b>
-            </div>
-            <div style="font-size:13px">
-                Pipeline: VCF → VEP → HPO matching → Ranking
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -392,9 +386,9 @@ with right:
             if variants_df.empty:
                 raise ValueError("VCF-ul nu contine variante valide dupa filtrare (QUAL/FILTER).")
 
-            update_progress(0.20, f"Pasul 1/4 — ✓ {len(variants_df)} variante curate")
+            update_progress(0.20, f"Pasul 1/4 — ✓ {len(variants_df)} variante bune")
 
-            update_progress(0.28, "Pasul 2/4 — Adnotare Ensembl VEP...")
+            update_progress(0.28, "Pasul 2/4 — Incepe procesul de adnotare...")
             annotated_df = annotate_vep(
                 variants_df,
                 progress_cb=lambda v, m: update_progress(0.28 + v * 0.25, f"Pasul 2/4 — {m}")
@@ -422,7 +416,7 @@ with right:
             update_progress(0.92, f"Pasul 5/5 — Ranking variante (dbNSFP: {dbnsfp_hits}, AF: {popfreq_hits})...")
             results_df = rank_variants(annotated_with_dbnsfp)
 
-            update_progress(1.0, "✓ Analiza completă!")
+            update_progress(1.0, "Analiza finalizata!")
 
             progress_bar.empty()
             status_text.empty()
