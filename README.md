@@ -93,10 +93,3 @@ The application generates:
 - Explainable AI (SHAP/LIME)
 - GPU accelerated annotation (G-VEP)
 
-## Author
-
-Leonard Stăniloiu
-
-Leonard Stăniloiu
-
-Master's Dissertation – 2026
