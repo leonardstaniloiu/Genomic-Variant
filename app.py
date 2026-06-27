@@ -256,7 +256,7 @@ def render_input_panel(hpo_terms_df):
                 st.error(f"Nu s-a putut citi fisierul allele frequency: {e}")
 
         if st.session_state.dbnsfp_basic_df is None and st.session_state.dbnsfp_af_df is None:
-            st.warning(f": Incarca un TSV/CSV exportat din dbNSFP pentru variantele pacientului") 
+            st.warning(f" Incarca un TSV/CSV exportat din dbNSFP pentru variantele pacientului") 
         else:
             parts = []
             if st.session_state.dbnsfp_basic_df is not None:
