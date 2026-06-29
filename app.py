@@ -450,6 +450,18 @@ with right:
         st.divider()
         st.markdown(f"#### Top {len(top_df)} variante prioritizate")
 
+        if "consequence" in results_df.columns:
+            st.markdown("#### Distributie consecinte in toate variantele analizate")
+            consequence_counts = (
+                results_df["consequence"]
+                .fillna("necunoscut")
+                .astype(str)
+                .value_counts()
+                .rename_axis("Consecinta")
+                .reset_index(name="Numar variante")
+            )
+            st.dataframe(consequence_counts, use_container_width=True, hide_index=True)
+
         for i, row in top_df.iterrows():
             score = float(row["pathogenicity_score"])
             rank = i + 1
@@ -584,11 +596,23 @@ with right:
 
         export_cols = [c for c in export_cols if c in top_df.columns]
         csv = top_df[export_cols].to_csv(index=False)
-
-        st.download_button(
-            "Descarca Top rezultate (CSV)",
-            data=csv,
-            file_name=f"results_{pat['id']}.csv",
-            mime="text/csv",
-            use_container_width=True,
-        )
+        all_csv = results_df[export_cols].to_csv(index=False)
+        
+        ec1, ec2 = st.columns(2)
+        with ec1:
+            st.download_button(
+                "Descarca Top rezultate (CSV)",
+                data=csv,
+                file_name=f"results_top_{pat['id']}.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
+        
+        with ec2:
+            st.download_button(
+                "Descarca toate variantele (CSV)",
+                data=all_csv,
+                file_name=f"results_all_{pat['id']}.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
